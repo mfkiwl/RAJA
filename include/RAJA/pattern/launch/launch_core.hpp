@@ -240,7 +240,8 @@ void launch(LaunchParams const &launch_params, const char *kernel_name, ReducePa
 
   using Res = typename resources::get_resource<typename LAUNCH_POLICY::host_policy_t>::type;
 
-  launch_t::exec(Res::get_default(), launch_params, kernel_name, reducers, p_body);
+  //launch_t::exec(Res::get_default(), launch_params, kernel_name, reducers, p_body);
+  launch_t::exec(Res::get_default(), launch_params, kernel_name, p_body, reducers);
 
   util::callPostLaunchPlugins(context);
 }
@@ -274,7 +275,7 @@ void launch(LaunchParams const &launch_params, ReduceParams&&... rest_of_launch_
 
   using Res = typename resources::get_resource<typename LAUNCH_POLICY::host_policy_t>::type;
 
-  launch_t::exec(Res::get_default(), launch_params, kernel_name, reducers, p_body);
+  //launch_t::exec(Res::get_default(), launch_params, kernel_name, reducers, p_body);
 
   util::callPostLaunchPlugins(context);
 }
@@ -307,7 +308,7 @@ void launch(LaunchParams const &params, const char *kernel_name, BODY const &bod
 
   using Res = typename resources::get_resource<typename LAUNCH_POLICY::host_policy_t>::type;
 
-  launch_t::exec(Res::get_default(), params, kernel_name, p_body);
+  //launch_t::exec(Res::get_default(), params, kernel_name, p_body);
 
   util::callPostLaunchPlugins(context);
 }
