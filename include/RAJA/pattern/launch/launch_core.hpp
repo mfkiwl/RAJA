@@ -354,9 +354,9 @@ void launch(ExecPlace place, const LaunchParams &launch_params, const char *kern
 {
 
   //Get reducers
-  auto reducers = expt::make_forall_param_pack(std::forward<ReduceParams>(rest_of_launch_args)...);
+  //auto reducers = expt::make_forall_param_pack(std::forward<ReduceParams>(rest_of_launch_args)...);
 
-  auto&& launch_body = expt::get_lambda(std::forward<ReduceParams>(rest_of_launch_args)...);
+  //auto&& launch_body = expt::get_lambda(std::forward<ReduceParams>(rest_of_launch_args)...);
 
 
   //Forward to single policy launch API - simplifies testing of plugins
@@ -609,14 +609,14 @@ launch(RAJA::resources::Resource res, LaunchParams const &launch_params,
   switch (place) {
     case ExecPlace::HOST: {
       using launch_t = LaunchExecute<typename POLICY_LIST::host_policy_t>;
-      resources::EventProxy<resources::Resource> e_proxy = launch_t::exec(res, launch_params, kernel_name, reducers, p_body);
+      resources::EventProxy<resources::Resource> e_proxy = launch_t::exec(res, launch_params, kernel_name, p_body, reducers);
       util::callPostLaunchPlugins(context);
       return e_proxy;
     }
 #if defined(RAJA_GPU_ACTIVE)
     case ExecPlace::DEVICE: {
       using launch_t = LaunchExecute<typename POLICY_LIST::device_policy_t>;
-      resources::EventProxy<resources::Resource> e_proxy = launch_t::exec(res, launch_params, kernel_name, reducers, p_body);
+      resources::EventProxy<resources::Resource> e_proxy = launch_t::exec(res, launch_params, kernel_name, p_body, reducers);
       util::callPostLaunchPlugins(context);
       return e_proxy;
     }
