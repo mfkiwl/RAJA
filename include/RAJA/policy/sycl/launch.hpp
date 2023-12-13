@@ -109,7 +109,7 @@ struct LaunchExecute<RAJA::sycl_launch_t<async, 0>> {
        BODY_IN &&body_in, ReduceParams &&launch_reducers)
   {
 
-   RAJA_ABORT_OR_THROW("SYCL backend currently not supported in RAJA launch");
+   RAJA_ABORT_OR_THROW("SYCL trivially copyable lambda  backend currently not supported in RAJA launch");
 
    return resources::EventProxy<resources::Resource>(res);
   }
@@ -191,7 +191,7 @@ struct LaunchExecute<RAJA::sycl_launch_t<async, 0>> {
     return resources::EventProxy<resources::Resource>(res);
   }
 
-  /*
+
   //If the launch lambda is not trivially copyable
   template <typename ReduceParams, typename BODY_IN,
 	    typename std::enable_if<!std::is_trivially_copyable<BODY_IN>{},bool>::type = true>
@@ -202,11 +202,10 @@ struct LaunchExecute<RAJA::sycl_launch_t<async, 0>> {
          BODY_IN &&body_in, ReduceParams &&launch_reducers)
   {
 
-   RAJA_ABORT_OR_THROW("SYCL 2 backend currently not supported in RAJA launch");
+   RAJA_ABORT_OR_THROW("SYCL non-trivially copyable lambda  backend currently not supported in RAJA launch");
 
    return resources::EventProxy<resources::Resource>(res);
   }
-  */
 
 
 };
