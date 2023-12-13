@@ -38,7 +38,7 @@ struct LaunchExecute<RAJA::sycl_launch_t<async, 0>> {
                                  RAJA::expt::type_traits::is_ForallParamPack<ReduceParams>,
                                  RAJA::expt::type_traits::is_ForallParamPack_empty<ReduceParams>>
   exec(RAJA::resources::Resource res, const LaunchParams &params, const char *kernel_name,
-       ReduceParams &&launch_reducers, BODY_IN &&body_in)
+       BODY_IN &&body_in, ReduceParams /*launch_reducers*/)
   {
 
     cl::sycl::queue* q = ::RAJA::sycl::detail::getQueue();
@@ -106,7 +106,7 @@ struct LaunchExecute<RAJA::sycl_launch_t<async, 0>> {
                                  RAJA::expt::type_traits::is_ForallParamPack<ReduceParams>,
                                  concepts::negate<RAJA::expt::type_traits::is_ForallParamPack_empty<ReduceParams>>>
   exec(RAJA::resources::Resource res, const LaunchParams &launch_params, const char *kernel_name,
-       ReduceParams &&launch_reducers, BODY_IN &&body_in)
+       BODY_IN &&body_in, ReduceParams &&launch_reducers)
   {
 
    RAJA_ABORT_OR_THROW("SYCL backend currently not supported in RAJA launch");
@@ -121,7 +121,7 @@ struct LaunchExecute<RAJA::sycl_launch_t<async, 0>> {
                                  RAJA::expt::type_traits::is_ForallParamPack<ReduceParams>,
                                  RAJA::expt::type_traits::is_ForallParamPack_empty<ReduceParams>>
   exec(RAJA::resources::Resource res, const LaunchParams &params, const char *kernel_name,
-       BODY_IN &&body_in, ReduceParams &&launch_reducers)
+       BODY_IN &&body_in, ReduceParams /*launch_reducers*/)
   {
 
     cl::sycl::queue* q = ::RAJA::sycl::detail::getQueue();
@@ -191,7 +191,7 @@ struct LaunchExecute<RAJA::sycl_launch_t<async, 0>> {
     return resources::EventProxy<resources::Resource>(res);
   }
 
-
+  /*
   //If the launch lambda is not trivially copyable
   template <typename ReduceParams, typename BODY_IN,
 	    typename std::enable_if<!std::is_trivially_copyable<BODY_IN>{},bool>::type = true>
@@ -206,6 +206,7 @@ struct LaunchExecute<RAJA::sycl_launch_t<async, 0>> {
 
    return resources::EventProxy<resources::Resource>(res);
   }
+  */
 
 
 };
